@@ -41,7 +41,7 @@ const VideoPlayer = ({ videoId }) => {
         <>
           {/* High-res Thumbnail from YouTube */}
           <img 
-            src={`https://img.youtube.com/vi/VHSmO_72Uro/maxresdefault.jpg`}
+            src={`/video-cover.png`}
             alt="Video Response Thumbnail"
             className="absolute inset-0 w-full h-full object-cover opacity-90"
           />
@@ -65,7 +65,7 @@ const VideoPlayer = ({ videoId }) => {
         <iframe 
           width="100%" 
           height="100%" 
-          src={`https://www.youtube.com/embed/VHSmO_72Uro?autoplay=0`} 
+          src={`https://www.youtube.com/embed/ItiWPmPzdi0?autoplay=0`} 
           title="YouTube video player" 
           frameBorder="0" 
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
