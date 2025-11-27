@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { Play, Pause, Music, Check, ExternalLink } from 'lucide-react';
+import { Play, Pause, Music, Check, ExternalLink, User, Anchor, Target, Zap, Heart } from 'lucide-react';
 
 // --- SVG ASSETS (Dragonfly & Bubbles) ---
 const Dragonfly = ({ className }) => (
@@ -41,7 +41,7 @@ const VideoPlayer = ({ videoId }) => {
         <>
           {/* High-res Thumbnail from YouTube */}
           <img 
-            src={`/video-cover.png`}
+            src={`/video-cover.png`} // Ensure you have this image or use a youtube thumb url
             alt="Video Response Thumbnail"
             className="absolute inset-0 w-full h-full object-cover opacity-90"
           />
@@ -107,101 +107,7 @@ const SwipeGallery = ({ images }) => {
   );
 };
 
-// 3. Music Card Component
-const MusicCard = ({ title, artist, reason }) => {
-  const [showEmbed, setShowEmbed] = useState(false);
-
-  return (
-    <div className="bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-rsc-green/30 flex flex-col shadow-sm transition-all hover:shadow-md my-4">
-      <div className="flex flex-col md:flex-row items-center gap-4">
-        <div className="w-16 h-16 bg-rsc-green rounded-lg flex items-center justify-center text-white shrink-0 relative overflow-hidden">
-          <Music className={`w-8 h-8 ${showEmbed ? 'animate-pulse' : ''}`} />
-        </div>
-        <div className="flex-1 w-full text-center md:text-left">
-          <h3 className="font-bold text-rsc-blue text-lg">{title}</h3>
-          <p className="text-sm text-gray-500 uppercase tracking-wide font-semibold">{artist}</p>
-          <div className="mt-3 text-sm text-rsc-text italic border-l-2 border-rsc-green pl-3 text-left bg-rsc-green/5 p-2 rounded-r-lg text-justify">
-            "{reason}"
-          </div>
-        </div>
-        <button 
-          onClick={() => setShowEmbed(!showEmbed)}
-          className="p-3 rounded-full bg-rsc-blue text-white hover:bg-rsc-green transition-colors shrink-0 flex items-center gap-2 px-4"
-        >
-           {showEmbed ? 'Close' : 'Listen'} <Play className="w-4 h-4 ml-1" fill="currentColor" />
-        </button>
-      </div>
-      
-      {/* YouTube Embed Area */}
-      <AnimatePresence>
-        {showEmbed && (
-          <motion.div 
-            initial={{ height: 0, opacity: 0, marginTop: 0 }}
-            animate={{ height: 'auto', opacity: 1, marginTop: 20 }}
-            exit={{ height: 0, opacity: 0, marginTop: 0 }}
-            className="overflow-hidden w-full"
-          >
-            <div className="aspect-video rounded-lg overflow-hidden bg-black">
-              {/* LF SYSTEM - Afraid To Feel Official Video ID */}
-              <iframe 
-                width="100%" 
-                height="100%" 
-                src={`https://www.youtube.com/embed/VHSmO_72Uro?autoplay=1`} 
-                title="YouTube video player" 
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowFullScreen
-              ></iframe>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
-
-// 4. Reveal List Component (For Ranking)
-const RevealList = ({ items }) => {
-  const [revealedIndex, setRevealedIndex] = useState(-1);
-
-  const revealNext = () => {
-    if (revealedIndex < items.length - 1) {
-      setRevealedIndex(prev => prev + 1);
-    }
-  };
-
-  return (
-    <div className="space-y-3 my-6">
-      <div className="text-sm text-gray-400 mb-2 italic">Tap to reveal my preferences...</div>
-      {items.map((item, idx) => (
-        <motion.div
-          key={idx}
-          onClick={revealNext}
-          className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between
-            ${idx <= revealedIndex 
-              ? 'bg-rsc-green text-black border-rsc-green shadow-md font-semibold' 
-              : 'bg-white border-dashed border-gray-300 text-gray-400 hover:bg-gray-50'
-            }`}
-          initial={false}
-          animate={{ 
-            scale: idx === revealedIndex ? 1.02 : 1,
-            y: idx > revealedIndex ? 0 : 0 
-          }}
-        >
-          <div className="flex items-center gap-3">
-            <span className={`font-bold text-lg ${idx <= revealedIndex ? 'text-black' : 'opacity-50'}`}>#{idx + 1}</span>
-            <span className="text-lg">
-              {idx <= revealedIndex ? item : "???"}
-            </span>
-          </div>
-          {idx <= revealedIndex && <Check className="w-5 h-5 text-black" />}
-        </motion.div>
-      ))}
-    </div>
-  );
-};
-
-// 5. Question Container
+// 3. Question Container
 const QuestionCard = ({ question, children, index }) => {
   return (
     <motion.div 
@@ -249,7 +155,7 @@ const App = () => {
       <main className="max-w-3xl mx-auto px-6 py-20 relative z-10">
         
         {/* Header */}
-        <header className="mb-32 text-center relative">
+        <header className="mb-24 text-center relative">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -262,7 +168,7 @@ const App = () => {
               VALENCIA <br/>
               <span className="text-rsc-green">RSC 2026</span>
             </h1>
-            <p className="text-xl text-gray-500">19/02 - 22/02 • Jury Team Applicant</p>
+            <p className="text-xl text-gray-500">19/02 - 22/02 • Chair Applicant</p>
             
             <motion.div 
               className="mt-12 flex justify-center"
@@ -274,116 +180,124 @@ const App = () => {
           </motion.div>
         </header>
 
+        {/* Extra Presentation (Video) */}
+        <div className="mb-24">
+           <h3 className="text-2xl font-bold text-rsc-green mb-6 flex items-center gap-2">
+             <Play className="w-6 h-6" /> Extra Presentation
+           </h3>
+           <VideoPlayer videoId="YOUR_YOUTUBE_VIDEO_ID" />
+           <p className="text-sm text-gray-400 italic text-center mt-2">Optional video introduction</p>
+        </div>
+
         {/* Questions Section */}
         <div className="space-y-24">
           
-          {/* Question A: Intro (Video) */}
-          <QuestionCard index={0} question="Please give us an idea of who you are and how this session fits into your path through the EYP.">
-            <p className="text-sm text-gray-500 mb-2 italic">Watch video response below:</p>
-            {/* REPLACE "YOUR_YOUTUBE_VIDEO_ID" below with the ID of your video.
-               Example: if your link is youtube.com/watch?v=dQw4w9WgXcQ, the ID is dQw4w9WgXcQ
-            */}
-            <VideoPlayer videoId="YOUR_YOUTUBE_VIDEO_ID" />
-          </QuestionCard>
-
-          {/* Question B: Bringing & Learning */}
-          <QuestionCard index={1} question="What are you bringing to the Jury Team of Valencia RSC? And what do you think you can learn from the session?">
-             <div className="flex flex-col gap-8">
-               <div className="bg-white p-8 rounded-xl shadow-sm border-t-4 border-rsc-blue relative overflow-hidden">
-                 <div className="absolute -right-6 -top-6 opacity-5">
-                    <Dragonfly className="w-32 h-32" />
-                 </div>
-                 <h3 className="font-bold text-xl mb-4 text-rsc-blue uppercase tracking-wide">What I Bring</h3>
-                 <p className="text-gray-700 leading-relaxed text-justify">
-                   Groundedness is extremely important for me, not elevating beyond what an officer is. A volunteer, a human. I keep myself extremely connected to reality and keep my feet on the ground. I consider myself a very fair person. I like to think I am able to provide equal opportunities for everyone when given the chance. Being able to provide professional comments about delegates but remain connected to them in a human way is vital and this is something I can bring to the table. I am aware difficult decisions will arise and although I am very empathetic, I am also realistic, allowing me to navigate these complex decisions with ease. This condenses in my pragmatic approach to life.
-                 </p>
-                 <p className="text-gray-700 leading-relaxed mt-4 text-justify">
-                   Last and not least, I like laughing a lot. I don’t think I can only see the bad out of a complicated situation. I always look for different perspectives and milder ways to work out problems. Partly, I do this through humor, keeping a cautious but relaxed approach.
-                 </p>
-               </div>
-
-               <div className="bg-white p-8 rounded-xl shadow-sm border-t-4 border-rsc-green relative overflow-hidden">
-                 <div className="absolute -right-6 -top-6 opacity-5">
-                    <OrganicBubble className="w-32 h-32" />
-                 </div>
-                 <h3 className="font-bold text-xl mb-4 text-rsc-green uppercase tracking-wide">What I'll Learn</h3>
-                 <p className="text-gray-700 leading-relaxed text-justify">
-                   I imagine there is an uncountable number of things I could learn from the session as this is my first contact with jurying. Although it is true that the few things I know come from watching and discussing with other juries, this blank slate allows me to absorb and learn as much as possible from an experienced jury like you. This makes me extremely excited as I get the chance to have essentially a whole new world I can thrive in and explore. I hope to learn how to read and assess delegates, how to portray speeches and interactions from delegates into measurable traits, and how to navigate uncertainty when evaluating and selecting many participants. Finally, learning about indispensable skills like new approaches for making tough decisions.
-                 </p>
-               </div>
-             </div>
-          </QuestionCard>
-
-          {/* Question C: Purpose of Jury */}
-          <QuestionCard index={2} question="What is the main purpose of the Jury Team to you? Why does it exist and what goal does it serve?">
-            <div className="prose prose-lg text-rsc-text leading-relaxed space-y-4 bg-white/50 p-6 rounded-xl border border-rsc-blue/10 w-full max-w-none">
-                <p className="text-justify">
-                  To start, I believe each of the five official’s roles have extremely different perspectives about delegates. While organisers, ESPs and MTMs might not have much interaction with participants, chairs and juries connect with the core of events, the people experiencing this beautiful experience for the first time. Juries specifically have the chance to delve into the committee dynamics and have a unique external view on their interactions. The Jury Team can essentially take a close and unbiased look into exchanges and analyse each individual delegate. This allows us to guarantee fairness, quality and integrity in the evaluations. I believe it is not only selecting candidates, it is upholding trust, and safeguarding the core values EYP stands for. Ensuring the decisions made are transparent, consistent and unbiased. For the delegates, we need to make them feel their efforts are recognised fairly. The officials need to rely on the Jury Team, who works with structure and accountability. This is exactly the way we protect that trust.
-                </p>
-                <p className="text-justify">
-                  Furthermore, I believe the Jury Team is essential for the development and continuation of EYP as an organisation. From my point of view it doesn’t only identify performance, it looks for potential. It provides the delegates with meaningful, constructive feedback that allows them to grow and develop their professional and personal skills. By keeping clear criteria for them, aligning with the EYP’s goals, we upkeep and maintain the quality of sessions.
-                </p>
+          {/* Question A: Intro */}
+          <QuestionCard index={0} question="Please introduce yourself and what your motivation is to the selection panel with maximum 3 sentences.">
+            <div className="bg-white p-8 rounded-xl shadow-sm border-l-4 border-rsc-blue relative overflow-hidden">
+                <div className="flex items-start gap-4">
+                    <User className="w-8 h-8 text-rsc-blue shrink-0 opacity-50" />
+                    <p className="text-gray-700 text-lg leading-relaxed text-justify italic">
+                    "My name is Alex, I am a hardworking and passionate person. I am an enthusiastic EYP-er with a desire to spread our values and principles to the youth of Valencia. As this is my home, it fills me with emotion to guide and empower the next generation of my city to help them become active citizens and an engaged youth in making Europe better for everyone."
+                    </p>
+                </div>
             </div>
           </QuestionCard>
 
-          {/* Question D: Two Criteria */}
-          <QuestionCard index={3} question="If you could only assess the delegates’ performance based on two criteria throughout the whole session, what would they be and why?">
+          {/* Question B: Skills */}
+          <QuestionCard index={1} question="What skills are an essential part of chairing in your eyes? In which of these skills do you already feel confident and which ones would you like to develop further?">
              <div className="space-y-6">
-               <motion.div 
-                 whileHover={{ scale: 1.01 }}
-                 className="bg-rsc-blue/10 p-8 rounded-xl border border-rsc-blue/20"
-               >
-                 <div className="flex items-center gap-3 mb-3">
-                    <div className="h-px flex-1 bg-rsc-blue/30"></div>
-                    <h3 className="text-2xl font-bold text-rsc-blue">Collaboration</h3>
-                    <div className="h-px flex-1 bg-rsc-blue/30"></div>
-                 </div>
-                 <p className="text-gray-700 text-justify">
-                   To work effectively in a team (or committee specifically), collaboration is essential. A delegate’s ability to listen actively, encouraging quiet voices and mediating disagreements directly determines the quality of the output of a committee, as well as the dynamics and wellbeing of the other delegates within it. Collaboration reveals directly the maturity, empathy and leadership potential of a delegate. It would also reward behaviour aligned with EYP’s values and disregard delegates that opt for more dominant or loud approaches.
+               
+               {/* 1. Essential Skills */}
+               <motion.div whileHover={{ scale: 1.01 }} className="bg-white p-6 rounded-xl shadow-sm border border-rsc-blue/20">
+                 <h3 className="font-bold text-lg text-rsc-blue mb-3 flex items-center gap-2">
+                    <Anchor className="w-5 h-5" /> 1. Essential skills of chairing
+                 </h3>
+                 <p className="text-gray-700 leading-relaxed text-justify">
+                   For me, chairing really comes down to structure, humanity, and intention. A Chair isn’t just there to keep people talking, they’re there to actually feel the room. You need to understand when the energy drops, when someone shuts down, when the group needs a bit of direction or simply a moment to breathe. Communication and active listening are the obvious ones, but the real skill is creating a space where people genuinely feel safe to speak and be themselves. A Chair protects the process, but more importantly, they protect the people in it and the meaning behind what they’re doing.
                  </p>
                </motion.div>
 
-               <motion.div 
-                 whileHover={{ scale: 1.01 }}
-                 className="bg-rsc-green/10 p-8 rounded-xl border border-rsc-green/20"
-               >
-                 <div className="flex items-center gap-3 mb-3">
-                    <div className="h-px flex-1 bg-rsc-green/30"></div>
-                    <h3 className="text-2xl font-bold text-rsc-green">Constructive Participation</h3>
-                    <div className="h-px flex-1 bg-rsc-green/30"></div>
-                 </div>
-                 <p className="text-gray-700 text-justify">
-                   This criteria would assess how meaningfully a delegate interacts with the committee’s topic. We are not assessing their studying skills, rather than focusing on the actual current knowledge of the topic, this metric targets curiosity, willingness to learn and critical thinking skills. Here, we are looking for delegates that build on ideas that are not from themselves, challenge new ideas but with an open mind and bring a thoughtful approach to discussions. Also, this is meant to also measure a delegate’s growth over the session, noting positively those who improve as topic discussions deepen.
+               {/* 2. Confident Skills */}
+               <motion.div whileHover={{ scale: 1.01 }} className="bg-rsc-green/10 p-6 rounded-xl shadow-sm border border-rsc-green/20">
+                 <h3 className="font-bold text-lg text-rsc-green mb-3 flex items-center gap-2">
+                    <Check className="w-5 h-5" /> 2. Skills I already feel confident in
+                 </h3>
+                 <p className="text-gray-700 leading-relaxed text-justify">
+                   I’m naturally good at communication and organisation, probably because I’m always paying attention to everything and everyone around me. I like taking something complicated and breaking it into steps people can actually work with. And I’m very aware of dynamics, when someone gets quiet, when someone feels overshadowed, when the atmosphere shifts a bit. I put a lot of intention into making the space feel comfortable, open, and warm. That balance of “we know where we’re going” but also “you’re safe here” is something that fits very naturally with who I am.
                  </p>
                </motion.div>
 
-               <p className="text-center text-xl font-medium text-rsc-blue italic pt-4">
-                 "We can assess how delegates work and how they think."
-               </p>
+               {/* 3. Skills to Develop */}
+               <motion.div whileHover={{ scale: 1.01 }} className="bg-rsc-blue/5 p-6 rounded-xl shadow-sm border border-dashed border-rsc-blue/40">
+                 <h3 className="font-bold text-lg text-rsc-blue mb-3 flex items-center gap-2">
+                    <Target className="w-5 h-5" /> 3. Skills I want to develop further
+                 </h3>
+                 <p className="text-gray-700 leading-relaxed text-justify">
+                   What I want to keep improving is handling the unpredictable moments, the silence, the tension, the emotional spikes that happen out of nowhere. I also want to get even better at adapting to each delegate individually, understanding their personality and pace. Chairing is continuous learning, and I want to grow in those subtle, intuitive parts that actually shape the experience.
+                 </p>
+               </motion.div>
              </div>
           </QuestionCard>
 
-          {/* Question E: Song */}
-          <QuestionCard index={4} question="[Optional] Please share a song that you feel represents your personality, or conveys with your vibe, and briefly tell us why.">
-            <MusicCard 
-              title="Afraid To Feel" 
-              artist="LF SYSTEM" 
-              reason="House, constant rhythm represents life doesn’t stop and we continuously look forward as it is full of surprises :))" 
-            />
+          {/* Question C: Goals & Support */}
+          <QuestionCard index={2} question="What are your goals for the session? How can the academic board better support you towards achieving them?">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                {/* Goals */}
+                <div className="bg-white p-6 rounded-xl border-t-4 border-rsc-blue shadow-sm">
+                    <h3 className="font-bold text-xl text-rsc-blue mb-4 uppercase tracking-wide">My Goals</h3>
+                    <p className="text-gray-700 text-sm leading-relaxed text-justify">
+                    My main goal is to genuinely grow as a Chair, not just in the obvious, “technical” sense, but in the deeper, human parts of the role. I want to understand my committee inside out: what motivates them, what scares them, where their energy comes from, and how I can guide them without imposing myself. I want to create a space where they feel safe, supported, and excited to work together. I also want to challenge myself to handle the unexpected moments with more confidence. I want to enjoy it. To be present. To let the experience shape me.
+                    </p>
+                </div>
+
+                {/* Support */}
+                <div className="bg-white p-6 rounded-xl border-t-4 border-rsc-green shadow-sm">
+                    <h3 className="font-bold text-xl text-rsc-green mb-4 uppercase tracking-wide">Board Support</h3>
+                    <p className="text-gray-700 text-sm leading-relaxed text-justify">
+                    What would help me the most is honest, grounded feedback. I want to know what I’m missing, what I’m not seeing, and what I can refine in real time. It helps me grow so much faster. I’d also love support in navigating the trickier committee moments, when to step back, when to step in, and how to keep the group aligned with the academic vision without losing their emotional rhythm. Clear expectations, open communication, and space to ask questions go a long way for me.
+                    </p>
+                </div>
+            </div>
           </QuestionCard>
 
-          {/* Question F: Ranking */}
-          <QuestionCard index={5} question="If you are applying to more than one Spanish RSC this year, please rank them from most to least preferred.">
-            <RevealList items={[
-              "Valencia",
-              "VALENCIA",
-              "VALENCIA!!!"
-            ]} />
+          {/* Question D: Obedience vs Ignore */}
+          <QuestionCard index={3} question="Would you rather have your delegates ignore you or blindly obey everything you say to them?">
+             <div className="bg-gradient-to-br from-white to-rsc-cream p-8 rounded-xl border border-rsc-blue/20 shadow-sm relative">
+                <Zap className="absolute top-6 right-6 text-yellow-400 w-8 h-8 opacity-50" />
+                
+                <h3 className="font-serif text-xl text-rsc-blue italic mb-4">"I’d rather have my delegates ignore me..."</h3>
+                
+                <div className="space-y-4 text-gray-700 text-justify">
+                    <p>
+                    If I had to choose, I’d rather have my delegates ignore me than blindly obey everything I say. Blind obedience completely kills the purpose of EYP, it removes thinking, ownership, personality, everything that makes a committee feel alive. I don’t want a group that follows instructions just because I’m the Chair. That’s not leadership, that’s just control, and it doesn’t help anyone grow.
+                    </p>
+                    <p>
+                    If they ignore me, at least they’re acting from their own thoughts and instincts. It means they’re questioning, exploring, trying to understand the process in their own way. And honestly, I’d much rather work with a group that challenges me or pushes back than one that stays silent and compliant. I’m there to guide, not to be the centre of their universe.
+                    </p>
+                    <div className="pt-4 border-t border-rsc-blue/10 font-medium text-rsc-blue">
+                    EYP is built on curiosity and critical thinking. I’d rather deal with a bit of chaos than the emptiness of blind compliance.
+                    </div>
+                </div>
+             </div>
+          </QuestionCard>
+
+          {/* Question E: Contact */}
+           <QuestionCard index={4} question="Please provide the selection panel with an email address to send the outcome of this selection.">
+            <div className="flex justify-start">
+              <div className="p-6 bg-white w-full md:w-auto pr-12 rounded-xl shadow-sm border border-rsc-green/30 flex flex-col justify-center hover:bg-rsc-green/5 transition-colors">
+                <span className="text-xs font-bold text-rsc-green uppercase tracking-wider mb-2">Email Address</span>
+                <p className="text-lg font-mono text-rsc-blue break-all">alejandrohuguetlorente@gmail.com</p>
+              </div>
+            </div>
           </QuestionCard>
 
           {/* Extra: Gallery Section */}
           <div className="pt-10 pb-10 border-t border-b border-rsc-green/20">
-             <h3 className="text-3xl font-bold text-rsc-green text-center mb-2">Moments & Memories</h3>
+             <h3 className="text-3xl font-bold text-rsc-green text-center mb-2 flex justify-center items-center gap-3">
+                <Heart className="w-6 h-6 fill-rsc-green" /> Moments & Memories
+             </h3>
              <p className="text-center text-gray-500">A glimpse into my EYP journey</p>
              <SwipeGallery images={[
               "/photo5.jpg",
@@ -393,20 +307,6 @@ const App = () => {
               "/photo6.jpg"
             ]} />
           </div>
-
-          {/* Question G: Contact */}
-           <QuestionCard index={6} question="Please share your email address and phone number.">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-6 bg-white rounded-xl shadow-sm border border-rsc-blue/20 flex flex-col items-center justify-center hover:bg-rsc-blue/5 transition-colors">
-                <span className="text-xs font-bold text-rsc-blue uppercase tracking-wider mb-2">Email</span>
-                <p className="text-xs md:text-sm font-mono text-gray-700 break-all">alejandrohuguetlorente@gmail.com</p>
-              </div>
-              <div className="p-6 bg-white rounded-xl shadow-sm border border-rsc-blue/20 flex flex-col items-center justify-center hover:bg-rsc-blue/5 transition-colors">
-                <span className="text-xs font-bold text-rsc-blue uppercase tracking-wider mb-2">Phone</span>
-                <p className="text-xs md:text-sm font-mono text-gray-700">+34 644 724 228</p>
-              </div>
-            </div>
-          </QuestionCard>
 
         </div>
 
