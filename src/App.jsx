@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence, useScroll } from 'framer-motion';
-import { Play, Check, Camera, Aperture, Eye, PenTool, Palette, Mail, Phone } from 'lucide-react';
+import { Play, Check, Camera, Aperture, PenTool, Palette, Mail, Phone, Heart, Image as ImageIcon } from 'lucide-react';
 
 // --- SVG ASSETS (Dragonfly & Bubbles) ---
 const Dragonfly = ({ className }) => (
@@ -23,7 +23,6 @@ const OrganicBubble = ({ className }) => (
 const VideoPlayer = ({ videoId }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // If no videoId is provided placeholder
   if (true == false) {
     return (
       <div className="relative w-full aspect-video bg-gray-200 rounded-xl overflow-hidden shadow-lg flex items-center justify-center mb-6 border-2 border-dashed border-gray-400">
@@ -38,9 +37,8 @@ const VideoPlayer = ({ videoId }) => {
     <div className="relative w-full aspect-video bg-black rounded-xl overflow-hidden shadow-lg group cursor-pointer mb-6" onClick={() => setIsPlaying(true)}>
       {!isPlaying ? (
         <>
-          {/* Cover Image */}
           <img 
-            src={`/video-cover.png`} // Ensure you have an image here or remove/replace
+            src={`/video-cover.png`} 
             alt="Video Response Thumbnail"
             className="absolute inset-0 w-full h-full object-cover opacity-90"
           />
@@ -59,7 +57,7 @@ const VideoPlayer = ({ videoId }) => {
         <iframe 
           width="100%" 
           height="100%" 
-          src={`https://www.youtube.com/embed/qNjEO-0bE1g?autoplay=0`} 
+          src={`https://www.youtube.com/embed/ItiWPmPzdi0?autoplay=0`} 
           title="YouTube video player" 
           frameBorder="0" 
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -71,7 +69,7 @@ const VideoPlayer = ({ videoId }) => {
   );
 };
 
-// 2. Swipe Gallery Component
+// 2. Swipe Gallery Component (For Memories)
 const SwipeGallery = ({ images }) => {
   const [index, setIndex] = useState(0);
 
@@ -84,7 +82,7 @@ const SwipeGallery = ({ images }) => {
         <motion.img
           key={index}
           src={images[index]}
-          alt="Portfolio Work"
+          alt="Memories"
           className="absolute inset-0 w-full h-full object-cover"
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
@@ -270,22 +268,56 @@ const App = () => {
             </div>
           </QuestionCard>
 
-          {/* Question D: Portfolio */}
+          {/* Question D: Portfolio (3 Placeholders) */}
           <QuestionCard index={3} question="Share your portfolio here! It can be anything, if you don’t have one, share some of the media content you created previously.">
-             <div className="bg-white p-4 rounded-xl border border-rsc-blue/20">
-                <div className="flex items-center gap-2 mb-2 text-rsc-blue font-bold px-2">
-                    <Palette className="w-5 h-5" /> My Work
+             <div className="bg-white p-6 rounded-xl border border-rsc-blue/20">
+                <div className="flex items-center gap-2 mb-4 text-rsc-blue font-bold">
+                    <Palette className="w-5 h-5" /> Selected Works
                 </div>
-                <SwipeGallery images={[
-                    "/photo1.JPG", 
-                    "/photo2.JPG", 
-                    "/photo3.JPG",
-                    "/photo4.jpg",
-                    "/photo5.jpg"
-                ]} />
-                <div className="bg-rsc-green/10 p-4 rounded-lg mt-4 border border-rsc-green/20 text-center">
+
+                {/* --- 3 PLACEHOLDER PHOTOS GRID --- */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    {/* Placeholder 1 */}
+                    <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden relative group">
+                        <img 
+                            src="/portfolio1.JPG" // CHANGE THIS to your first image
+                            alt="Portfolio Piece 1" 
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-bold">
+                            View
+                        </div>
+                    </div>
+
+                    {/* Placeholder 2 */}
+                    <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden relative group">
+                        <img 
+                            src="/portfolio2.jpg" // CHANGE THIS to your second image
+                            alt="Portfolio Piece 2" 
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-bold">
+                            View
+                        </div>
+                    </div>
+
+                    {/* Placeholder 3 */}
+                    <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden relative group">
+                        <img 
+                            src="/portfolio3.JPG" // CHANGE THIS to your third image
+                            alt="Portfolio Piece 3" 
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-bold">
+                            View
+                        </div>
+                    </div>
+                </div>
+                {/* --------------------------------- */}
+
+                <div className="bg-rsc-green/10 p-4 rounded-lg border border-rsc-green/20 text-center">
                     <p className="text-rsc-text font-medium text-sm md:text-base">
-                        This website and the video response, for instance, take them as part of my creative ability portfolio.
+                        I have never been in a media team before. This website and the video response, include them as part of my creative ability portfolio.
                     </p>
                 </div>
              </div>
@@ -315,6 +347,21 @@ const App = () => {
               </div>
             </div>
           </QuestionCard>
+
+          {/* EXTRA: Memories Section (Moved to End) */}
+          <div className="pt-10 pb-10 border-t border-b border-rsc-green/20">
+             <h3 className="text-3xl font-bold text-rsc-green text-center mb-2 flex justify-center items-center gap-3">
+                <Heart className="w-6 h-6 fill-rsc-green" /> Moments & Memories
+             </h3>
+             <p className="text-center text-gray-500">A glimpse into my EYP journey</p>
+             <SwipeGallery images={[
+              "/photo5.jpg",
+              "/photo1.JPG", 
+              "/photo2.JPG", 
+              "/photo3.JPG",
+              "/photo6.jpg"
+            ]} />
+          </div>
 
         </div>
 
