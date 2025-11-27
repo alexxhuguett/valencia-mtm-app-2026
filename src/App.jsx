@@ -65,7 +65,7 @@ const VideoPlayer = ({ videoId }) => {
         <iframe 
           width="100%" 
           height="100%" 
-          src={`https://www.youtube.com/embed/ItiWPmPzdi0?autoplay=0`} 
+          src={`https://www.youtube.com/embed/jVoUNOVszY8?autoplay=0`} 
           title="YouTube video player" 
           frameBorder="0" 
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
